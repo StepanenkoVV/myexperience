@@ -1,5 +1,3 @@
-import java.awt.image.AreaAveragingScaleFilter;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,13 +10,13 @@ public class Main {
     public static final String DELETE_CASE = "DELETE";
 
     public static void main(String[] args) {
-        // TODO: написать консольное приложение для работы со списком дел todoList
         while (true) {
             int index;
             Scanner scaner = new Scanner(System.in);
             String input = scaner.nextLine();
             switch (input.split(" ")[0]) { //берем первое слово из консоли на проверку для case;
-                case ADD_CASE: //ADD
+
+                case ADD_CASE -> {
                     if (input.matches("ADD\\s[\\D].+")) {
                         todoList.add(input.replaceAll("ADD", "").trim());
                     }
@@ -29,33 +27,33 @@ public class Main {
                         int indexAdd = Integer.parseInt(matcher.group().replaceAll("ADD", "").trim());
                         todoList.add(indexAdd, input.replaceAll("ADD\\s[\\d]+", "").trim());
                     }
-                    break;
-                case LIST_CASE: //LIST
-                    todoList.getTodos();
-                    break;
-                case DELETE_CASE: // DELETE
+                }
+
+                case LIST_CASE -> todoList.getTodos();
+
+                case DELETE_CASE -> {
                     index = Integer.parseInt(input.substring(input.indexOf(' ')).trim());
                     todoList.delete(index);
-                    break;
-                case EDIT_CASE:  // EDIT
+                }
+                case EDIT_CASE -> {
                     int indexEdit;
                     String todoEdit;
                     indexEdit = Integer.parseInt(input.split(" ")[1]);
                     todoEdit = input.replaceAll("EDIT\\s[\\d]+", "").trim();
                     todoList.edit(todoEdit, indexEdit);
-                    break;
-                case "HELP":
-                    System.out.println("Привет, я твой список дел, я помогу тебе в продуктивности");
-                    System.out.println("Я умею выполнять следующие команды:");
-                    System.out.println("ADD - добавить дело " +
-                            "\nEDIT - разместить дело на определенное место в списке" +
-                            "\nDELETE - удалить дело из списка" +
-                            "\nLIST - вывести все дела на экран");
-                    break;
-                default:
-                    System.out.println("Напишите - HELP, я объясню как работать с TodoList");
+                }
+
+                case "HELP" -> System.out.println("""
+                        Привет, я твой список дел, я помогу тебе в продуктивности!
+                        Я умею выполнять следующие команды:
+                        ADD - добавить дело
+                        EDIT - разместить дело на определенное место в списке
+                        DELETE - удалить дело из списка
+                        LIST - вывести все дела на экран
+                        """);
+
+                default -> System.out.println("Напишите - HELP, я объясню как работать с TodoList");
             }
         }
     }
-
 }
